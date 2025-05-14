@@ -1,0 +1,277 @@
+{
+  "company": {
+    "name": "Instituciones",
+    "logo": "https://ddsisem.edomex.gob.mx/sigeco/img/escudo_edomex.svg",
+    "logo2": "https://ddsisem.edomex.gob.mx/sigeco/img/logosIsem.png",
+    "logo3": "https://ddsisem.edomex.gob.mx/sigeco/img/logo_isem.svg",
+    "logo4": "https://ddsisem.edomex.gob.mx/sigeco/img/logosDif.png"
+  },
+  "navigation": [
+    {
+      "name": "Giros y Actividades",
+      "href": "product"
+    },
+    {
+      "name": "Proceso",
+      "href": "features"
+    },
+    {
+      "name": "Dudas",
+      "href": "pricing"
+    },
+    {
+      "name": "Registrar",
+      "href": "regist"
+    },
+    {
+      "name": "Consultar",
+      "href": "checker"
+    }
+    
+  ],
+  "callToAction": {
+    "text": "Get started",
+    "href": "#"
+  },
+  "mainHero": {
+    "title": "Quejas y Denuncias Sanitarias",
+    "subtitle": "Bienvenido al portal donde podras realizar denuncias sanitarias",
+    "description": "Este espacio está dedicado para que puedas generar tu queja o denuncia sanitaria en contra de los establecimientos o unidades económicas que brinden algún servicio dentro del Estado de México. ",
+    "secondDescription": "Con la finalidad de proteger en todo momento la salud de la población y estar en posibilidad de ejercer la regulación, control y fomento sanitarios con funciones de autoridad en materia de salubridad general y local, te compartimos la información de los giros o las actividades en las que podemos intervenir y dar oportuna a tención a tu queja o denuncia:",
+    "thirdDescription": "",
+    "img": "https://ddsisem.edomex.gob.mx/sigeco/img/sidesa/Designer11.jpeg",
+    "primaryAction": {
+      "text": "Persona",
+      "href": "#"
+    },
+    "secondaryAction": {
+      "text": "Empresa",
+      "href": "/#/bolsa"
+    }
+  },
+  "product": {
+    "title": "Información",
+    "items": [
+      {
+        "title": "Productos y servicios",
+        "description1": {
+          "number1": "Rastros y Mataderos",
+          "number2": "Productos del tabaco",
+          "number3": "Cosméticos / productos de perfumería y belleza",
+          "number4": "Tatuajes",
+          "number5": "Productos alimenticios",
+          "number6": "Bebidas alcohólicas",
+          "number7": "Bebidas no alcohólicas",
+          "number8": "Servicios de alimentos, restaurantes, comedores, cocinas económicas, etc.",
+          "number9": "Suplementos"
+        },
+        "img": "https://ddsisem.edomex.gob.mx/sigeco/img/sidesa/Designer5.jpeg"
+      },
+      {
+        "title": "Insumos",
+        "description": {
+          "number1": "Farmacias / almacenes",
+          "number2": "Medicamentos",
+          "number3": "Dispositivos médicos"
+        },
+        "secondDescription": "Realizar reconstrucción mamaria en 120 pacientes con mastectomía que han concluido tratamiento oncológico específico.",
+        "img": "https://ddsisem.edomex.gob.mx/sigeco/img/sidesa/Designer7.jpeg"
+      },
+      {
+        "title": "Servicio de Salud",
+        "description": {
+          "number1": "Hospitales y Clínicas",
+          "number2": "Consultorios",
+          "number3": "Laboratorio de análisis clínicos",
+          "number4": "Spa / Medicina alternativa",
+          "number5": "Bancos de Sangre / servicios de transfusión"
+        }
+      },
+      {
+        "title": "Salud ambiental",
+        "description": {
+          "number1": "Plaguicidas / Nutrientes vegetales",
+          "number2": "Rayos X",
+          "number3": "Humo de tabaco",
+          "number4": "Saneamiento básico"
+        }
+      }
+    ]
+  },
+  "info": {
+    "title": "Información adicional",
+    "items": [
+      {
+        "description": {
+          "number1": "Una denuncia sanitaria te permite señalar hechos, actos u omisiones que representen un riesgo o provoquen un daño a la salud.",
+          "number2": "A través de nuestra plataforma, podrás proporcionar los datos que permitan identificar y localizar las causas del riesgo."
+        },
+        "img": "https://ddsisem.edomex.gob.mx/sigeco/img/sidesa/Designer5.jpeg"
+      },
+      {
+        "description": {
+          "number1": "Los resultados de la denuncia y las medidas que, en su caso, se apliquen únicamente serán informadas por requerimiento de autoridad judicial.",
+          "number2": "Consulta el estatus de tu denuncia en el apartado de “Consulta”, con el folio emitido por la plataforma.",
+          "number3": "¡Se parte de la vigilancia sanitaria!"
+        },
+        "secondDescription": "Realizar reconstrucción mamaria en 120 pacientes con mastectomía que han concluido tratamiento oncológico específico.",
+        "img": "https://ddsisem.edomex.gob.mx/sigeco/img/sidesa/Designer8.jpeg"
+      }
+    ]
+  },
+  "features": {
+    "title": "Proceso de Denuncia Sanitaria",
+    "subtitle": "",
+    "description": "Proceso de Denuncia Sanitaria",
+    "description1": "",
+    "description2": "", 
+    "description3": "", 
+    "description4": "",
+    "description5": "Proceso de Denuncia Sanitaria",
+    "items": [
+      {
+        "name": "Paso 1",
+        "description": "Registra la información solicitada en esta plataforma.",
+        "icon": "https://ddsisem.edomex.gob.mx/sigeco/img/react.png"
+      },
+      {
+        "name": "Paso 2",
+        "description": "Programación para realizar visita de verificación sanitaria, en caso de ser procedente.",
+        "icon": "https://ddsisem.edomex.gob.mx/sigeco/img/tailwindcss.svg"
+      },
+      {
+        "name": "Paso 3",
+        "description": "Dictaminación del acta de verificación sanitaria.",
+        "icon": "https://ddsisem.edomex.gob.mx/sigeco/img/nextjs.svg"
+      },
+      {
+        "name": "Paso 4",
+        "description": "Consulta el proceso de atención a tu queja o denuncia y descarga la respuesta con el folio proporcionado en el registro.",
+        "icon": "https://ddsisem.edomex.gob.mx/sigeco/img/ts.png"
+      }      
+    ],
+    "exclusion": [
+      {
+        "name": "1.-",
+        "description": "En tratamiento de quimioterapia o radioterapia.",
+        "icon": "https://ddsisem.edomex.gob.mx/sigeco/img/react.png"
+      },
+      {
+        "name": "2.-",
+        "description": "Sin control de comorbilidades.",
+        "icon": "https://ddsisem.edomex.gob.mx/sigeco/img/tailwindcss.svg"
+      },
+      {
+        "name": "3.-",
+        "description": "Los que no completen sus trámites.",
+        "icon": "https://ddsisem.edomex.gob.mx/sigeco/img/nextjs.svg"
+      },
+      {
+        "name": "4.-",
+        "description": "Aquellos en que el riesgo sea mayor que el beneficio.",
+        "icon": "https://ddsisem.edomex.gob.mx/sigeco/img/ts.png"
+      }
+    ]
+  },
+  "regist": {
+    "title": "Criterios",
+    "subtitle": "Verifica si eres candidata para una cirugía",
+    "description": "Los criterios de exclusión son los siguientes:",
+    "description1": "En tratamiento de quimioterapia o radioterapia ",
+    "description2": "Sin control de comorbilidades", 
+    "description3": "Los que no completen sus trámites", 
+    "description4": "Aquellos en que el riesgo sea mayor que el beneficio",
+    "description5": "Criterios de Inclusión",
+    "items": [
+      {
+        "name": "1.-",
+        "description": "Pacientes de 18 a 65 años con mastectomía del Estado de México",
+        "icon": "https://ddsisem.edomex.gob.mx/sigeco/img/react.png"
+      },
+      {
+        "name": "2.-",
+        "description": "Pacientes que hayan concluido quimioterapia, 1 mes previo, a su valoración",
+        "icon": "https://ddsisem.edomex.gob.mx/sigeco/img/tailwindcss.svg"
+      },
+      {
+        "name": "3.-",
+        "description": "Pacientes que hayan concluido su radioterapia, 1 año previo, a su valoración",
+        "icon": "https://ddsisem.edomex.gob.mx/sigeco/img/nextjs.svg"
+      },
+      {
+        "name": "4.-",
+        "description": "Comorbilidades controladas, IMC 19 a 27 o sin comorbilidades",
+        "icon": "https://ddsisem.edomex.gob.mx/sigeco/img/ts.png"
+      },
+      {
+        "name": "5.-",
+        "description": "Que acepten la técnica propuesta",
+        "icon": "https://ddsisem.edomex.gob.mx/sigeco/img/ts.png"
+      },
+      {
+        "name": "6.-",
+        "description": "Que realicen trámite completo",
+        "icon": "https://ddsisem.edomex.gob.mx/sigeco/img/ts.png"
+      },
+      {
+        "name": "7.-",
+        "description": "Con consentimiento informado",
+        "icon": "https://ddsisem.edomex.gob.mx/sigeco/img/ts.png"
+      }
+
+    ]
+  },
+  "pricing": {
+    "title": "Preguntas frecuentes",
+    "items": [
+      {
+        "name": "¿Qué hacer para ingresar una queja o denuncia en contra de servidores públicos?",
+        "priceDetails": "Todo hecho, acto u omisión que represente un riesgo o provoque un daño a la salud de la población.",
+        "features": ["--------"]
+      },
+      {
+        "name": "¿Cómo intervenimos en los siguientes giros?",
+        "priceDetails": "Documentación",
+        "priceDetails1": "Infraestructura",
+        "priceDetails2": "Equipamiento",
+        "priceDetails3": "Procesos",
+        "priceDetails4": "Condiciones higiénico sanitarias ",
+        "tel": "7222262500",
+        "features": ["Depto. Ingeniería del Software"]
+      },
+      {
+        "name": "¿Qué se necesita para dar gestión a tu queja?",
+        "priceDetails": "Documentación ",
+        "priceDetails1": "Infraestructura ",
+        "priceDetails2": "Equipamiento",
+        "priceDetails3": "Procesos ",
+        "priceDetails4": "Condiciones higiénico sanitarias ",
+        "features": ["------------"]
+      }
+    ]
+  },
+  "about": {
+    "sections": [
+      {
+        "name": "Github",
+        "href": "#",
+        "content": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
+      },
+      {
+        "name": "LinkedIn",
+        "href": "#",
+        "content": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
+      },
+      {
+        "name": "X",
+        "href": "#",
+        "content": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
+      }
+    ],
+    "socialMedia": {
+      "github": "https://github.com/",
+      "twitter": "https://twitter.com/",
+      "linkedin": "https://www.linkedin.com/in/"
+    }
+  }
+}
