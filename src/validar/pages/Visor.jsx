@@ -120,7 +120,8 @@ export const Visor = () => {
       });
 
       const { status } = response;
-      const { data } = response.data;
+      const  {data}  = response?.data;
+   
 
       if (status !== 200 || !data || Object.keys(data).length === 0) {
         setStatusComponent('viewSinApertura');
