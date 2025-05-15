@@ -28,14 +28,17 @@ export const Visor = () => {
   };
 
   // Lista de usuarios autorizados
-  const users = [
+   const users = [
     'C3NTE4DATAVENA01.',
     'C3NTE4DATABUEN02.',
     'C3NTE4DATATHAN03.',
     'C3NTE4DATAVELA04.',
     'C3NTE4DATAJESS05.',
     'C3NTE4DATAOMA06.',
-    'C3NTE4DATAEDA07.'
+    'C3NTE4DATAEDA07.',
+    'C3NTE4DATALRS08.',
+    'C3NTE4DATACEL09.',
+    'C3NTE4DATAMON10.'
   ];
 
   // Estados y navegación
