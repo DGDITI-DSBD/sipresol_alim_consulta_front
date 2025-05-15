@@ -34,7 +34,13 @@ export const Visor = () => {
   };
 
   const users = [
-    'DATACENTER0001', 'DATACENTER0002'
+    'C3NTE4DATAVENA01.',
+    'C3NTE4DATABUEN02.',
+    'C3NTE4DATATHAN03.',
+    'C3NTE4DATAVELA04.',
+    'C3NTE4DATAJESS05.',
+    'C3NTE4DATAOMA06.',
+    'C3NTE4DATAEDA07.'
   ];
 
   const navigate = useNavigate();
@@ -154,7 +160,7 @@ export const Visor = () => {
                         })}
                       />
                       {errors.curp && (
-                        <p className="mt-1 text-sm text-red-500">{errors.curp.message}</p>
+                        <p className="mt-1 text-sm text-white">{errors.curp.message}</p>
                       )}
                     </div>
                   </div>
@@ -173,7 +179,7 @@ export const Visor = () => {
                         {...register("key", {required: 'La llave es requerida'})}
                       />
                       {errors.key && (
-                        <p className="mt-1 text-sm text-red-500">{errors.key.message}</p>
+                        <p className="mt-1 text-sm text-white">{errors.key.message}</p>
                       )}
                     </div>
                   </div>
