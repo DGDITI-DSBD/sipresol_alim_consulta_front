@@ -128,39 +128,71 @@ export const Visor = () => {
             <div className="space-y-4 max-w-4xl mx-auto content-center p-2">
               <p class = "text-3xl text-white text-bold text-center">Busqueda por curp.</p>
               <p class = "text-xl text-white text-bold text-center">Inserta la Clave Única de Verificación para Busquedas para iniciar a consultar.</p>
-              <form onSubmit={handleSubmit(onSubmit)} class="flex items-center max-w-sm mx-auto">  
-
-               
-               <label for="simple-search" class="sr-only">Busqueda</label>
-                <div class="relative w-full">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                       
+              <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto space-y-4">
+                <div className="flex flex-col md:flex-row gap-4">
+                  {/* Campo CURP */}
+                  <div className="flex-1">
+                    <label htmlFor="curp" className="sr-only">CURP</label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        id="curp"
+                        name="curp"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          value.toUpperCase();
+                        }}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Ingrese su CURP"
+                        required
+                        {...register("curp", { 
+                          required: 'Campo requerido',
+                          pattern: {
+                            value: /^[A-Z][AEIOUX][A-Z]{2}[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])[M][A-Z]{5}[0-9A-F][0-9]$/,
+                            message: 'Estructura de CURP inválida'
+                          } 
+                        })}
+                      />
+                      {errors.curp && (
+                        <p className="mt-1 text-sm text-red-500">{errors.curp.message}</p>
+                      )}
                     </div>
-                    <input type="text" id="curp" name = "curp" 
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Digitar curp." required 
-                     {...register("curp")}
-                    />
-                    
+                  </div>
+
+                  {/* Campo Llave */}
+                  <div className="flex-1">
+                    <label htmlFor="key" className="sr-only">Llave de usuario</label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        id="key"
+                        name="key"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Llave de usuario"
+                        required
+                        {...register("key", {required: 'La llave es requerida'})}
+                      />
+                      {errors.key && (
+                        <p className="mt-1 text-sm text-red-500">{errors.key.message}</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <button type="submit"  onClick = {() => {
-                  setStatusComponent('viewSinApertura')
-                }}
-                class="p-2.5 ms-2 text-sm font-medium text-white bg-colorPrimario rounded-lg border border-bgSecundario hover:bg-colorSecundario focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+
+                {/* Botón de búsqueda */}
+                <div className="flex justify-center">
+                  <button
+                    type="submit"
+                    onClick={() => setStatusComponent('viewSinApertura')}
+                    className="text-white bg-colorPrimario hover:bg-colorSecundario focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 flex items-center"
+                  >
+                    <svg className="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                     </svg>
-                    <span class="sr-only">Buscar</span>
-                </button>
-
-             
-
-                    <input type="text" id="key" name = "key" class=" ms-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Llave de usuario ..." required 
-                     {...register("key")}
-                    />
-
-                
-                  
-            </form>
+                    Buscar
+                  </button>
+                </div>
+              </form>
               
               {/* <button type="button" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Registrar</button> */}
 
