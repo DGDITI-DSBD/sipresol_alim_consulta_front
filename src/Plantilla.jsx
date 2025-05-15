@@ -3,6 +3,7 @@ import { AppRouter } from "./router/AppRouter"
 import { LandingRouter } from "./router/LandingRouter"
 import { useCheckAuth } from "./hooks";
 import { ValidarRoutes } from "./validar/routes";
+import { Visor } from "./validar/pages";
 
 export const Plantilla = () => {
 
@@ -13,9 +14,7 @@ export const Plantilla = () => {
       <Routes>
         
         
-        <Route path="inicio" element={ <LandingRouter />} />
-        
-
+        <Route path="inicio" element={ <Visor />} />
         { compareValue === 0 ? 
         <Route path="/*" element={ <AppRouter /> } />          
         :
@@ -26,11 +25,14 @@ export const Plantilla = () => {
         {/* <Route path="validar/*" element={ <VaidarPage /> } /> */}
         
         {/* RUTA PARA EL VALIDADOR DE MUJERES - CURP - RUTA ALTERMATOVA SIM RETORNO  */}
-        <Route path="validar/*" element={<ValidarRoutes/> } />
+        <Route path= "inicio/*" element = {<ValidarRoutes />} />
         
 
         {/* RUTA PARA EL INICIO DE <SESION></SESION> */}
         <Route path="main/*" element={ <AppRouter /> } />
+        
+
+      
 
 
       </Routes>

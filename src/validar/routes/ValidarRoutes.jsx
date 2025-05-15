@@ -15,19 +15,15 @@ export const ValidarRoutes = () => {
     return (
         <div>
             <Routes>
-                <Route path='CURP' element={<VaidarPage />} />
-                <Route path='Formulario' element={<MujerForm />} />
-                <Route path='Iniciar-Sesion' element={<LoginPage />} />
                 <Route path="Fum-Pdf/:registroId" element={<FumPdf />} />
                 <Route path='Acuse' element={<Acuse />} />
                 <Route path='Comprobante' element={<Comprobante />} />
                 <Route path='Compromiso/:registroId' element={<Compromiso />} />
                 <Route path='Conocimiento/:registroId' element={<Conocimiento />} />
                 <Route path='Permanencia/:registroId' element={<Permanencia />} />
-                <Route path={`alimentacion_bienestar/:id`} element={<Visor />} />
-                <Route path='registro/:uuid' element={<Registro />} />
-                <Route path = '/*' element = {<Navigate to = '/inicio'/>} />
                 <Route path='PDFs/:registroId' element={<VistaPDFS />} />
+               
+               
 
 
 

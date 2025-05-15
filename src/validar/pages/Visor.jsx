@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import CryptoJS from "crypto-js";
 import { urlBase } from "../../api";
 import { useParams, Route, Routes, useNavigate, Link } from "react-router-dom";
+import { Controller, useForm } from 'react-hook-form';
 import { pass } from "../../api";
 import axios from "axios";
 import alimentacion_bienestar from "../../images/canasta_alimentario_p1.JPEG";
 import { Header } from "../../router/components/Header";
 import { Footer } from "../../router/components/Footer";
 import { Personalinfo } from "../../ui/components/personalInfo";
+import Swal from "sweetalert2";
 
 export const Visor = () => {
   const stylesBanner = {
@@ -31,29 +33,51 @@ export const Visor = () => {
       "linear-gradient(90deg, rgba(200,127,143,1) 4%, rgba(186,168,85,0.5270483193277311) 100%, rgba(255,255,255,0.16290266106442575) 100%)",
   };
 
+  const users = [
+    'DATACENTER0001', 'DATACENTER0002'
+  ];
+
   const navigate = useNavigate();
 
   const [linkedDym, setLinkDym] = useState("");
   const [statusComponent, setStatusComponent] = useState("");
   const [isComponent, setIsComponent] = useState('personal');
   const [dataInfo, setDataInfo] = useState([]);
-
-  const params = useParams();
-
-   const decrypUrl = params.id.replace(/p1L2u3S/g, '+' ).replace(/bXaJN0921/g, '/').replace(/e1Q2u3A4l/g, '=')
-   const bytes = CryptoJS.AES.decrypt(decrypUrl, pass);
-   const folio = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+  const [isCurpSearch, setCurpSearch] = useState('none');
+  const [buttonSearch, setButtonSearch] = useState();
 
   
+    const { register, handleSubmit, control, reset, formState: { errors }, setValue } = useForm({
+    defaultValues: {
+      curp: '',
+      key: ''
+    }
+  });
 
-      useEffect(() => {
-        const handleExampleData = async (info) => {
+    //   useEffect(() => {
+    //     const onSubmit = async (form) => {
 
-  
+    //       console.log(form);
+
+      
+    // }
+    //     onSubmit(formData);
+    // },[formData]);
+
+    const onSubmit = async (formData) => {
+   
+      const {curp, key} = formData;
+
+      const isExists = users.find((user) => user == key);
+
+        if(isExists) {
 
         try {
 
-            const reemplazar_respuesta = await axios.get(`${urlBase}/registros/id/${info}`);
+            const reemplazar_respuesta = await axios.post(`${urlBase}/registros/busquedaCurp`, {
+              curp:curp,
+              key:key
+            });
 
             const {status} = reemplazar_respuesta;
 
@@ -69,9 +93,17 @@ export const Visor = () => {
         } catch (error) {
             setStatusComponent('viewApertura');
         }
-    }
-        handleExampleData(folio);
-    },[params.id]);
+      }else{
+
+                  Swal.fire({
+                       icon: "warning",
+                       title: "Llave inválida",
+                       text: "Verifique el acceso",
+                       confirmButtonColor: "#8a2036",
+                    });
+        
+      }
+  };
 
   return (
     <>
@@ -82,6 +114,8 @@ export const Visor = () => {
           style={stylesBanner}
           class="h-full min-h-[703px] w-full p-4 border-2 border-b-colorPrimario border-l-colorSecundario border-r-colorSecundario border-t-colorSecundario content-center"
         >
+
+          
           <div
             className={`grid ${
               statusComponent != "ViewApertura"
@@ -90,41 +124,47 @@ export const Visor = () => {
             } gap-5 w-full overflow-x-scroll`}
             style={styleTables}
           >
-            <div className="space-y-4 max-w-4xl mx-auto content-center">
-              <h1 className="grid space-y-4 max-w-3x1 text-3xl font-extrabold text-white sm:text-2xl md:text-3xl text-center">
-                <span className="block text-[3rem]">
-                  {statusComponent != "viewApertura"
-                    ? "¡Hola! ¿Nuev@ por aquí?"
-                    : "!Hola! Bienvenid@."}
-                </span>
-              </h1>
+            
+            <div className="space-y-4 max-w-4xl mx-auto content-center p-2">
+              <p class = "text-3xl text-white text-bold text-center">Busqueda por curp.</p>
+              <p class = "text-xl text-white text-bold text-center">Inserta la Clave Única de Verificación para Busquedas para iniciar a consultar.</p>
+              <form onSubmit={handleSubmit(onSubmit)} class="flex items-center max-w-sm mx-auto">  
 
-              <h1 className="grid space-y-4 max-w-3x1 text-3xl font-extrabold text-white sm:text-2xl md:text-3xl text-center">
-                <span className="block text-2xl">
-                  {statusComponent != "viewApertura"
-                    ? "Al perecer no has comenzado con tu registro"
-                    : "Aquí podrás volver a descargar tus formatos"}
-                </span>
-              </h1>
+               
+               <label for="simple-search" class="sr-only">Busqueda</label>
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                       
+                    </div>
+                    <input type="text" id="curp" name = "curp" 
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Digitar curp." required 
+                     {...register("curp")}
+                    />
+                    
+                </div>
+                <button type="submit"  onClick = {() => {
+                  setStatusComponent('viewSinApertura')
+                }}
+                class="p-2.5 ms-2 text-sm font-medium text-white bg-colorPrimario rounded-lg border border-bgSecundario hover:bg-colorSecundario focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                    <span class="sr-only">Buscar</span>
+                </button>
 
+             
 
+                    <input type="text" id="key" name = "key" class=" ms-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Llave de usuario ..." required 
+                     {...register("key")}
+                    />
+
+                
+                  
+            </form>
+              
               {/* <button type="button" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Registrar</button> */}
 
-              {statusComponent != "viewApertura" ? (
-                ""
-              ) : (
-                 <ol class="flex justify-center w-auto p-3 space-x-2 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 rounded-lg shadow-xs dark:text-gray-400 sm:text-base dark:bg-gray-800 dark:border-gray-700 sm:p-4 sm:space-x-4 rtl:space-x-reverse">
-                    <li class="flex items-center text-colorSecundario dark:colorSecundario cursor-pointer" onClick={() => {
-                        setIsComponent('personal');
-                    }}>
-                        <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border border-colorPrimario rounded-full shrink-0 dark:colorPrimario">
-                            1
-                        </span>
-                        <p class = "hover:text-colorPrimario" >Validación de información personal</p>
-                        
-                    </li>
-                </ol>
-              )}
+             
 
               {statusComponent != "viewApertura" ? (
                 ""
@@ -181,7 +221,7 @@ export const Visor = () => {
                                 {/* Fub */}
                                   <button 
                                       class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-                                      onClick={() => navigate(`../Fum-Pdf/${ CryptoJS.AES.encrypt( JSON.stringify( dataInfo.id ),pass ).toString().replace(/\+/g,'p1L2u3S').replace(/\//g,'bXaJN0921').replace(/=/g,'e1Q2u3A4l') }`)}
+                                      onClick={() => navigate(`Fum-Pdf/${ CryptoJS.AES.encrypt( JSON.stringify( dataInfo.id ),pass ).toString().replace(/\+/g,'p1L2u3S').replace(/\//g,'bXaJN0921').replace(/=/g,'e1Q2u3A4l') }`)}
                                   >
                                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-type-pdf">
                                           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -203,7 +243,7 @@ export const Visor = () => {
                                 {/* PERMANENCIA */}
                                   <button 
                                       class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-                                      onClick={() => navigate(`../PDFs/${ CryptoJS.AES.encrypt( JSON.stringify( dataInfo.id ),pass ).toString().replace(/\+/g,'p1L2u3S').replace(/\//g,'bXaJN0921').replace(/=/g,'e1Q2u3A4l') }`)}
+                                      onClick={() => navigate(`PDFs/${ CryptoJS.AES.encrypt( JSON.stringify( dataInfo.id ),pass ).toString().replace(/\+/g,'p1L2u3S').replace(/\//g,'bXaJN0921').replace(/=/g,'e1Q2u3A4l') }`)}
                                   >
                                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-type-pdf">
                                           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
