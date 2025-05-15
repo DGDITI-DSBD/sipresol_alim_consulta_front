@@ -132,8 +132,8 @@ export const Visor = () => {
           >
             
             <div className="space-y-4 max-w-4xl mx-auto content-center p-2">
-              <p class = "text-3xl text-white text-bold text-center">Busqueda por curp.</p>
-              <p class = "text-xl text-white text-bold text-center">Inserta la Clave Única de Verificación para Busquedas para iniciar a consultar.</p>
+              <p class = "text-3xl text-white text-bold text-center">Búsqueda por curp.</p>
+              <p class = "text-xl text-white text-bold text-center">Inserta la Clave Única de Verificación para Búsquedas para iniciar a consultar.</p>
               <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto space-y-4">
                 <div className="flex flex-col md:flex-row gap-4">
                   {/* Campo CURP */}
