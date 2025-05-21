@@ -164,7 +164,7 @@ if (registro.curp) {
     // Opcional: descarga automática
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'PERMANENCIA.pdf';
+    link.download = 'PERMANENCIA_' + registro.curp + '.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

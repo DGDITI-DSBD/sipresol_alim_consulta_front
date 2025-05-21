@@ -708,7 +708,7 @@ const checkOpcionMultiple = (preguntaId, mapping) => {
     // Opcional: descarga automática
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'FORMATO_FUB.pdf';
+    link.download = 'FORMATO_FUB_'+  registro.curp  + '.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

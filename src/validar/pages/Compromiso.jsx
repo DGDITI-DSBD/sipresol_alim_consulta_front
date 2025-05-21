@@ -166,7 +166,7 @@ if (registro.curp) {
     // Opcional: descarga automática
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'FORMATO_COMPROMISO.pdf';
+    link.download = 'FORMATO_COMPROMISO_' + registro.curp +'.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
