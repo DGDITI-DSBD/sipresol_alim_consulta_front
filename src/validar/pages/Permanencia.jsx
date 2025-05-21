@@ -8,8 +8,6 @@ import alimentacion_bienestar from '../../images/canasta_alimentario_p1.JPEG'
 import { urlBase, urlBaseFront, pass } from '../../api';
 import CryptoJS from "crypto-js";
 
-// const pass = 'claveSuperSecreta123!'; 
-
 
 export const Permanencia = () => {
 
@@ -19,13 +17,14 @@ export const Permanencia = () => {
     const [data, setData] = useState(null);
     const [pdfUrl, setPdfUrl] = useState(null);
     const navigate = useNavigate();
+    const [pdfUrlCompromiso, setPdfUrlCompromiso] = useState(null);
+    const [pdfUrlPermanencia, setPdfUrlPermanencia] = useState(null);
+
 
     // const handleRedirect = () => {
     //   navigate(`../alimentacion_bienestar/2`); // id
     // };
 
-
-    
   const handleRedirect = () => {
     navigate('/Iniciar-Sesion');
   };
@@ -44,13 +43,7 @@ export const Permanencia = () => {
                 const response = await fetch(`${urlBase}/respuestas/registro/${folio}`);
                 const result = await response.json();
 
-                 
-      // const response = await fetch(`${urlBase}/respuestas/registro/${registroId}`);
-      // const result = await response.json();
-        
-
-
-
+   
         if (Array.isArray(result.respuestas)) {
           setData(result.respuestas);
           await generatePDF(result.respuestas, result.registro);
@@ -66,20 +59,39 @@ export const Permanencia = () => {
     fetchDataAndGeneratePDF();
   }, [registroId]);
 
-  const generatePDF = async (data, registro) => {
-    if (!data || !Array.isArray(data) || !registro) {
-      console.error('Datos no cargados o incompletos. Inténtalo de nuevo.');
-      return;
-    }
-    setLoading(true);
-    try {
-      const templatePath = '/assets/PERMANENCIA.pdf';
-      const response = await fetch(templatePath);
-      if (!response.ok) throw new Error('Error al cargar la plantilla PDF');
 
-      const existingPdfBytes = await response.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(existingPdfBytes);
-      const form = pdfDoc.getForm();
+const generatePDF = async (data, registro) => {
+  if (!data || !Array.isArray(data) || !registro) {
+    console.error('Datos no cargados o incompletos. Inténtalo de nuevo.');
+    return;
+  }
+
+  setLoading(true);
+  try {
+    const compromisoUrl = await generateAndDownloadPDF('/assets/COMPROMISO_ACTIVIDADES_COMUNITARIAS.pdf', 'FORMATO_COMPROMISO_'+registro.curp+'.pdf', data, registro);
+    const permanenciaUrl = await generateAndDownloadPDF('/assets/PERMANENCIA.pdf', 'PERMANENCIA_'+registro.curp+'.pdf', data, registro);
+    
+    setPdfUrlCompromiso(compromisoUrl);
+    setPdfUrlPermanencia(permanenciaUrl);
+  } catch (error) {
+    console.error('Error al generar los PDFs:', error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
+// Función para generar un solo PDF
+const generateAndDownloadPDF = async (templatePath, fileName, data, registro) => {
+  const response = await fetch(templatePath);
+  if (!response.ok) throw new Error(`Error al cargar la plantilla: ${templatePath}`);
+
+  const existingPdfBytes = await response.arrayBuffer();
+  const pdfDoc = await PDFDocument.load(existingPdfBytes);
+  const form = pdfDoc.getForm();
+
+
 
 
       // Concatenar el nombre completo
@@ -151,102 +163,105 @@ if (registro.curp) {
 
 
 
-    // Bloquear los campos para que no sean editables
-    form.getFields().forEach((field) => field.enableReadOnly());
+  // Bloquear los campos
+  form.getFields().forEach(field => field.enableReadOnly());
 
-    // Guardar y crear el blob
-    const pdfBytes = await pdfDoc.save();
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
+  const pdfBytes = await pdfDoc.save();
+  const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+  const url = URL.createObjectURL(blob);
 
-    setPdfUrl(url);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 
-    // Opcional: descarga automática
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'PERMANENCIA_' + registro.curp + '.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  } catch (error) {
-    console.error('Error al generar el PDF:', error);
-  } finally {
-    setLoading(false);
-  }
+  return url; // <-- devuelve la URL para el visor
 };
 
- return (
-    <div className="flex flex-col items-center justify-start min-h-screen p-4 bg-[#9F2241]">
+return (
+  <div className="flex flex-col items-center justify-start min-h-screen p-4 bg-[#9F2241]">
+    <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-6xl">
+      {loading ? (
+        <p className="text-gray-600 text-center">Generando y descargando ...</p>
+      ) : pdfUrlCompromiso && pdfUrlPermanencia ? (
+        <>
+          <div className="text-center mb-6">
+            <p className="text-green-600 text-lg font-semibold">Archivos PDF generados con éxito</p>
+            <p className="text-green-600">Revisa tu carpeta de descargas o visualiza los documentos aquí:</p>
+          </div>
 
-     
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* COMPROMISO */}
+            <div>
+              <h3 className="text-center font-semibold mb-2">Formato Compromiso</h3>
+              <iframe
+                src={pdfUrlCompromiso}
+                title="PDF Compromiso"
+                width="100%"
+                height="500px"
+                className="border"
+              />
+              <div className="flex justify-center gap-4 mt-3">
+                <button
+                  onClick={() => window.open(pdfUrlCompromiso, '_blank')?.print()}
+                  className="bg-colorPrimario hover:bg-colorSecundario text-white py-2 px-4 rounded"
+                >
+                  Imprimir
+                </button>
+                <a
+                  href={pdfUrlCompromiso}
+                  download="FORMATO_COMPROMISO.pdf"
+                  className="bg-colorPrimario hover:bg-colorSecundario text-white py-2 px-4 rounded"
+                >
+                  Descargar
+                </a>
+              </div>
+            </div>
 
-      {/* Imagen de canasta */}
+            {/* PERMANENCIA */}
+            <div>
+              <h3 className="text-center font-semibold mb-2">Formato Permanencia</h3>
+              <iframe
+                src={pdfUrlPermanencia}
+                title="PDF Permanencia"
+                width="100%"
+                height="500px"
+                className="border"
+              />
+              <div className="flex justify-center gap-4 mt-3">
+                <button
+                  onClick={() => window.open(pdfUrlPermanencia, '_blank')?.print()}
+                  className="bg-colorPrimario hover:bg-colorSecundario text-white py-2 px-4 rounded"
+                >
+                  Imprimir
+                </button>
+                <a
+                  href={pdfUrlPermanencia}
+                  download="PERMANENCIA.pdf"
+                  className="bg-colorPrimario hover:bg-colorSecundario text-white py-2 px-4 rounded"
+                >
+                  Descargar
+                </a>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <p className="text-gray-600 text-center">------</p>
+      )}
 
-      {/* <img
-        src={alimentacion_bienestar}
-        alt="Canasta Alimentaria"
-        className="w-full max-w-4xl h-auto rounded-lg mb-6"
-      /> */}
-
-      {/* Contenido del visor */}
-      <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-4xl">
-        {loading ? (
-          <p className="text-gray-600 text-center">Generando y descargando  ...</p>
-        ) : pdfUrl ? (
-          <>
-           <div className="text-center">
-  <p className="text-green-600 mb-2">PDF generado con éxito</p>
-  <p className="text-green-600 mb-4">Revisa tu Formato de Permanencia en descargas</p>
-
-  {/* Botón para imprimir */}
-  <button
-    onClick={() => window.frames[0]?.print()}
-    className="mt-6 bg-colorPrimario hover:bg-colorSecundario text-white py-2 px-4 rounded mx-auto block"
-  >
-    Imprimir 
-  </button>
-
-  {/* Botón para descargar nuevamente */}
-  <a
-    href={pdfUrl}
-    download="FORMATO_PERMANENCIA.pdf"
-    className="mt-6 bg-colorPrimario hover:bg-colorSecundario text-white py-2 px-4 rounded mx-auto block"
-  >
-    Descargar 
-  </a>
-</div>
-
-
-            <iframe
-              src={pdfUrl}
-              title="PDF Preview"
-              width="100%"
-              height="600px"
-              className="border"
-            />
-          </>
-        ) : (
-          <p className="text-gray-600 text-center">------ </p>
-        )}
-{/* 
-<button
-  onClick={handleRedirect}
-  className="mt-6 bg-colorPrimario hover:bg-colorSecundario text-white py-2 px-4 rounded mx-auto block"
->
-  Formatos
-</button> */}
-
-
-<button
-          onClick={handleRedirect}
-          className="mt-6 bg-colorPrimario hover:bg-colorSecundario text-white py-2 px-4 rounded mx-auto block"
-        >
-          Salir
-        </button>
-
-      </div>
+      <button
+        onClick={handleRedirect}
+        className="mt-6 bg-colorPrimario hover:bg-colorSecundario text-white py-2 px-4 rounded mx-auto block"
+      >
+        Salir
+      </button>
     </div>
-  );
+  </div>
+);
+
 };
 
 
