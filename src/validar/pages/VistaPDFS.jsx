@@ -13,7 +13,6 @@ const VistaPDFS = () => {
     const { registroId } = useParams();
     const [activeTab, setActiveTab] = useState("compromiso");
 
-
 useEffect(() => {
   const showSpinner = (mensaje) => {
     const spinner = Swal.getHtmlContainer().querySelector('#spinner-container');
@@ -46,9 +45,7 @@ useEffect(() => {
     hideSpinner();
 
     if (tab === "permanencia") {
-      updateStatusMessage("msgPermanencia", "✅ Se realizo la solicitud de descarga de el archivo, de Permanencia con exito.");
-    } else if (tab === "compromiso") {
-      updateStatusMessage("msgCompromiso", "✅ Se realizo la solicitud de descarga, de  el archivo de Compromiso con exito.");
+      updateStatusMessage("msgPermanencia", "✅ Se realizó la solicitud de descarga del archivo de Permanencia y Carta Compromiso con éxito.");
     }
 
     if (btnRef) {
@@ -63,15 +60,14 @@ useEffect(() => {
       title: 'Atención',
       html: `
         <div style="font-size: 1.1rem; color: #333;">
-          <p>Para poder descargar tu solicitud de Permanencia y Carta Compromiso da click en los siguientes botones:</p>
+          <p>Para poder descargar tu solicitud de Permanencia y Carta Compromiso da clic en el siguiente botón:</p>
           <div id="spinner-container" style="margin: 10px 0; display: none; text-align: center;">
             <div class="loader"></div>
             <p id="spinner-text" style="margin-top: 5px;">Generando archivo...</p>
           </div>
 
           <div style="margin-top: 1.5rem; text-align: center;">
-            <button id="btnCompromiso" style="margin: 8px; padding: 10px 20px; background-color: #9F2241; color: white; border: none; border-radius: 5px;">Generar PDF Compromiso</button>
-            <button id="btnPermanencia" style="margin: 8px; padding: 10px 20px; background-color: #9F2241; color: white; border: none; border-radius: 5px;">Generar PDF Permanencia</button>           
+            <button id="btnPermanencia" style="margin: 8px; padding: 10px 20px; background-color: #9F2241; color: white; border: none; border-radius: 5px;">Generar Pdf´s de Permanencia y Carta Compromiso</button>           
             <br />
             <button id="btnCerrar" style="margin-top: 15px; padding: 10px 20px; background-color: #555; color: white; border: none; border-radius: 5px;">Cerrar</button>
           </div>
@@ -84,15 +80,10 @@ useEffect(() => {
       allowEscapeKey: false,
       didOpen: () => {
         const btnPermanencia = Swal.getHtmlContainer().querySelector('#btnPermanencia');
-        const btnCompromiso = Swal.getHtmlContainer().querySelector('#btnCompromiso');
         const btnCerrar = Swal.getHtmlContainer().querySelector('#btnCerrar');
 
         btnPermanencia.addEventListener('click', () => {
-          setActiveTabWithDelay("permanencia", "Generando archivo de Permanencia...", btnPermanencia);
-        });
-
-        btnCompromiso.addEventListener('click', () => {
-          setActiveTabWithDelay("compromiso", "Generando archivo de Compromiso...", btnCompromiso);
+          setActiveTabWithDelay("permanencia", "Generando archivo de Permanencia y Compromiso...", btnPermanencia);
         });
 
         btnCerrar.addEventListener('click', () => {
@@ -100,7 +91,7 @@ useEffect(() => {
           Swal.fire({
             title: '¡Listo!',
             html: `
-              <p>¿Haz descargado los archivos de Permanencia y Compromiso en PDF?.</p> 
+              <p>¿Has descargado los archivos de Permanencia y Compromiso en PDF?</p> 
               <div style="text-align: center;">
                 <button id="btnCerrarFinal" style="margin: 8px; padding: 10px 20px; background-color: #9F2241; color: white; border: none; border-radius: 5px;">SI</button>
                 <button id="btnRegresar" style="margin: 8px; padding: 10px 20px; background-color: #555; color: white; border: none; border-radius: 5px;">NO</button>
@@ -125,7 +116,7 @@ useEffect(() => {
           });
         });
 
-        // Spinner CSS (solo una vez)
+        // Spinner CSS 
         const styleId = 'swal-spinner-style';
         if (!document.getElementById(styleId)) {
           const style = document.createElement('style');
@@ -157,6 +148,7 @@ useEffect(() => {
 
 
 
+
     return (
         <div className="p-4">
             {/* Encabezado con logos y textos */}
@@ -172,24 +164,20 @@ useEffect(() => {
             </div>
 
            <div className="flex gap-4 mb-4 justify-center">
-  <button
-    onClick={() => setActiveTab("compromiso")}
-    className="mt-6 bg-colorPrimario hover:bg-colorSecundario text-white py-2 px-4 rounded"
-  >
-    Generar PDF Compromiso
-  </button>
+ 
+
   <button
     onClick={() => setActiveTab("permanencia")} // Aquí agregamos el manejador onClick
     className="mt-6 bg-colorPrimario hover:bg-colorSecundario text-white py-2 px-4 rounded"
   >
-    Generar PDF Permanencia
+    Visor de archivos PDF
   </button>
 </div>
 
 
 
             <div>
-                {activeTab === "compromiso" && <Compromiso registroId={registroId} />}
+                {/* {activeTab === "compromiso" && <Compromiso registroId={registroId} />} */}
                 {activeTab === "permanencia" && <Permanencia registroId={registroId} />}
             </div>
         </div>

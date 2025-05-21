@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+
 import { PDFDocument } from 'pdf-lib';
 import { useParams, useNavigate  } from 'react-router-dom';
 import CryptoJS from "crypto-js";
@@ -19,9 +20,35 @@ export const FumPdf = () => {
   const navigate = useNavigate();
 
 
+  const [progress, setProgress] = useState(0);
+  const progressRef = useRef(null);
+
+
   const handleRedirect = () => {
     navigate('/Iniciar-Sesion');
   };
+
+
+  useEffect(() => {
+    if (loading) {
+      setProgress(0); // reiniciar
+
+      progressRef.current = setInterval(() => {
+        setProgress(prev => {
+          if (prev >= 98) {
+            clearInterval(progressRef.current);
+            return 98;
+          }
+          return prev + 1;
+        });
+      }, 100); // puedes ajustar la velocidad
+    } else {
+      setProgress(100); // completar cuando termina
+      clearInterval(progressRef.current);
+    }
+
+    return () => clearInterval(progressRef.current);
+  }, [loading]);
 
 
 
@@ -475,21 +502,14 @@ if (registro.celular) {
 }
 
 // Seleccionar el checkbox según el estado civil
-if (registro.ct_edo_civil) {
+if (registro.ct_edo_civil !== undefined && registro.ct_edo_civil !== null) {
   let fieldName;
 
-  // Determinar el campo a seleccionar según el valor
-  switch (registro.ct_edo_civil) {
-    case '1':
-      fieldName = 'r9_1'; // Opción 1
-      break;
-    case '2':
-      fieldName = 'r9_2'; // Opción 2
-      break;
-    default:
-      console.warn('Valor de ct_edo_civil no reconocido:', registro.ct_edo_civil, '-> Se seleccionará opción por defecto r9_1');
-      fieldName = 'r9_1'; // Valor por defecto
-      break;
+  // Determinar el campo a seleccionar: 2 = casada -> r9_2, cualquier otro -> r9_1
+  if (registro.ct_edo_civil === 2) {
+    fieldName = 'r9_2';
+  } else {
+    fieldName = 'r9_1';
   }
 
   // Verificar y seleccionar el checkbox
@@ -708,7 +728,7 @@ const checkOpcionMultiple = (preguntaId, mapping) => {
     // Opcional: descarga automática
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'FORMATO_FUB_'+  registro.curp  + '.pdf';
+    link.download = 'FORMATO_FUB_'+registro.curp+'.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -734,19 +754,38 @@ const checkOpcionMultiple = (preguntaId, mapping) => {
         <img src={LogoIsem} alt="Logo ISEM" className="h-24" />
       </div>
 
-      {/* Imagen de canasta */}
-
-      {/* <img
-        src={alimentacion_bienestar}
-        alt="Canasta Alimentaria"
-        className="w-full max-w-4xl h-auto rounded-lg mb-6"
-      /> */}
-
-      {/* Contenido del visor */}
+     
       <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-4xl">
-        {loading ? (
-          <p className="text-gray-600 text-center">Generando y descargando  Formato Único de Bienestar (FUB) ...</p>
-        ) : pdfUrl ? (
+     {loading ? (
+  <div className="text-center p-6 flex flex-col items-center justify-center space-y-4">
+    <svg
+      className="animate-spin h-8 w-8 text-colorPrimario"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.4 0 0 5.4 0 12h4zm2 5.3A8 8 0 014 12H0c0 3 1.1 5.8 3 7.9l3-2.6z"
+      />
+    </svg>
+    <p className="text-gray-700 font-semibold">
+      Generando y descargando Formato Único de Bienestar (FUB)...
+    </p>
+  </div>
+) 
+
+        
+        : pdfUrl ? (
           <>
            <div className="text-center">
   <p className="text-green-600 mb-2">FUB generado con éxito</p>
@@ -780,7 +819,7 @@ const checkOpcionMultiple = (preguntaId, mapping) => {
             />
           </>
         ) : (
-          <p className="text-gray-600 text-center">Haz clic en el botón para generar el FUB</p>
+          <p className="text-gray-600 text-center">PDF FUB</p>
         )}
 
         <button
