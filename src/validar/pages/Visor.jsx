@@ -40,7 +40,8 @@ export const Visor = () => {
     'C3NTE4DATACEL09.',
     'C3NTE4DATAMON10.',
     'C3NTE4DATAANSI11.',
-    'C3NTE4DATARBERR12.'
+    'C3NTE4DATARBERR12.',
+    'C3NTE4DATADIQUF13.'
 
   ];
 
