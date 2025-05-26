@@ -41,8 +41,9 @@ export const Visor = () => {
     'C3NTE4DATAMON10.',
     'C3NTE4DATAANSI11.',
     'C3NTE4DATARBERR12.',
-    'C3NTE4DATADIQUF13.'
-
+    'C3NTE4DATADIQUF13.',
+    'CENTERDATAYCMI14.',
+    'C3NT3RDATAASEZ15.',
   ];
 
   // Estados y navegación
